@@ -1,0 +1,66 @@
+html,
+body {
+  font-family: "Quicksand", serif;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+html {
+  overflow-y: hidden !important;
+  background-image: url("../static/background.jpg") !important;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.alert-danger {
+  color: rgb(255, 255, 255); /* Ganti warna teks sesuai keinginan */
+}
+
+.alert-info {
+  color: rgb(255, 255, 255); /* Ganti warna teks sesuai keinginan */
+}
+
+.hero.is-success {
+  background: #f2f6fa;
+}
+.hero .nav,
+.hero.is-success .nav {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.box {
+  margin-top: 5rem;
+  background-color: rgba(247, 246, 246, 0.222);
+}
+input {
+  font-weight: 300;
+}
+input.is-medium {
+  border-color: rgb(165, 165, 165);
+}
+p {
+  font-weight: 700;
+}
+p.subtitle {
+  padding-top: 1rem;
+}
+
+a {
+  color: #fff;
+}
+
+a:hover {
+  color: #bababa;
+}
+
+.languages {
+  margin-top: 10px;
+}
+
+.footer-text {
+  font-weight: initial;
+}

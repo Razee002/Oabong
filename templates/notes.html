@@ -1,0 +1,198 @@
+<option value="reguler">Tiket Reguler</option>
+<option value="nanggung">Tiket Nanggung</option>
+<option value="sepuasnya">Tiket Sepuasnya</option></select
+
+<form
+              method="post"
+              action="http://localhost:5000/ubahtransaksi/{{data[0]}}"
+            >
+              Nama : <br />
+              <input type="hidden" name="id" value="{{data[0]}}" />
+              <input
+                type="text"
+                id="name"
+                name="nama"
+                value="{{data[1]}}"
+              /><br />
+              Tanggal : <br />
+              <label for="datetime"></label>
+              <input
+                type="datetime-local"
+                id="datetime"
+                name="tanggal"
+                value="{{data[2]}}"
+              />
+              <br /><br />
+              Pilih Tiket : <br />
+              <select id="level" name="kategori" value="{{data[3]}}">
+                <option value="reguler">Tiket Reguler</option>
+                <option value="nanggung">Tiket Nanggung</option>
+                <option value="sepuasnya">Tiket Sepuasnya</option></select
+              ><br />
+              Jumlah Tiket : <br />
+              <input
+                type="number"
+                id="status"
+                name="jumlah_pesanan"
+                value="{{data[4]}}"
+              /><br />
+              <div
+                class="d-sm-flex align-items-center justify-content-between mb-4"
+                style="display: flex"
+              ></div>
+              Total : <br />
+              <input
+                type="text"
+                id="name"
+                name="harga_total"
+                value="{{data[5]}}"
+              /><br />
+              <button class="btn btn-primary">Submit</button>
+              <button class="btn btn-secondary">Kembali</button>
+            </form>
+
+
+
+<!-- tambahtransaksi -->
+<form method="post" action="{{ url_for('tambahtransaksi') }}">
+  Nama : <br />
+  <input type="text" id="nama" name="nama" required /><br />
+  Tanggal : <br />
+  <label for="datetime"></label>
+  <input type="datetime-local" id="tanggal" name="tanggal" />
+  <br />
+  Pilih Tiket : <br />
+  <select
+    id="kategori"
+    name="kategori"
+    onchange="updateTicketPrice()"
+  >
+    <option value="" disabled selected hidden>...</option>
+    <option value="reguler">Tiket Reguler</option>
+    <option value="nanggung">Tiket Nanggung</option>
+    <option value="sepuasnya">Tiket Sepuasnya</option></select
+  ><br />
+  Jumlah Tiket : <br />
+  <input
+    type="number"
+    id="jumlah_pesanan"
+    name="jumlah_pesanan"
+    onchange="calculateTotal()"
+  /><br />
+  <div
+    class="d-sm-flex align-items-center justify-content-between mb-4"
+    style="display: flex"
+  ></div>
+  Total : <br />
+  <input type="text" id="harga_total" name="harga_total" /><br />
+  <button class="btn btn-primary">Submit</button>
+  <button class="btn btn-danger" onclick="goToTransactionsPage()">
+    Kembali
+  </button>
+</form>
+
+@application.route("/tambahtransaksi", methods=["GET", "POST"])
+def tambahtransaksi():
+    if request.method == "POST":
+        nama = request.form["nama"]
+        tanggal = request.form["tanggal"]
+        kategori = request.form["kategori"]
+        jumlah_pesanan = request.form["jumlah_pesanan"]
+        harga_total = request.form["harga_total"]
+        data = (nama, tanggal, kategori, jumlah_pesanan, harga_total)
+
+        openDb()
+        cursor.execute(
+            """
+            INSERT INTO transaksi (nama, tanggal, kategori, jumlah_pesanan, harga_total)
+            VALUES(%s, %s, %s, %s, %s)
+            """,
+            data,
+        )
+        transaksi_id = cursor.lastrowid
+        conn.commit()
+        closeDb()
+
+        return redirect(url_for("transaksi", transaksi_id=transaksi_id))
+    else:
+        return render_template("tambahtransaksi.html")
+
+
+<!-- ubahtransaksi -->
+@application.route("/transaksi_ubah/<id>", methods=["GET", "POST"])
+  def transaksi_ubah(id):
+      openDb()
+      cursor.execute("SELECT * FROM transaksi WHERE id='%s'" % id)
+      data = cursor.fetchone()
+      if request.method == "POST":
+          id = request.form["id"]
+          nama = request.form["nama"]
+          tanggal = request.form["tanggal"]
+          kategori = request.form["kategori"]
+          jumlah_pesanan = request.form["jumlah_pesanan"]
+  
+          # Hitung harga total berdasarkan kategori tiket
+          harga_total = int(jumlah_pesanan) * harga_tiket[kategori]
+  
+          cursor.execute(
+              """
+              UPDATE transaksi SET nama='%s', tanggal='%s', kategori='%s', jumlah_pesanan='%s', harga_total='%s'
+              WHERE id='%s'
+          """
+              % (nama, tanggal, kategori, jumlah_pesanan, harga_total, id)
+          )
+          conn.commit()
+          closeDb()
+          return redirect(url_for("transaksi"))
+      else:
+          closeDb()
+          return render_template("ubahtransaksi.html", data=data)
+
+
+          <form
+          method="post"
+          action="{{ url_for('transaksi_ubah', id=data[0]) }}">
+          Nama : <br />
+          <input type="hidden" name="id" value="{{ data[0] }}" />
+          <input
+            type="text"
+            id="name"
+            name="nama"
+            value="{{data[1]}}"
+          /><br />
+          Tanggal : <br />
+          <label for="datetime"></label>
+          <input
+            type="datetime-local"
+            id="datetime"
+            name="tanggal"
+            value="{{data[2]}}"
+          />
+          <br /><br />
+          Pilih Tiket : <br />
+          <select id="level" name="kategori">
+            <option value="reguler" {% if data[3] == "reguler" %}selected{% endif %}>Tiket Reguler</option>
+            <option value="nanggung" {% if data[3] == "nanggung" %}selected{% endif %}>Tiket Nanggung</option>
+            <option value="sepuasnya" {% if data[3] == "sepuasnya" %}selected{% endif %}>Tiket Sepuasnya</option>
+          </select><br>
+          Jumlah Tiket : <br />
+          <input
+            type="number"
+            id="status"
+            name="jumlah_pesanan"
+            value="{{data[4]}}"
+          /><br />
+          <div
+            class="d-sm-flex align-items-center justify-content-between mb-4"
+            style="display: flex"
+          ></div>
+          Total : <br />
+          <input
+            type="text"
+            id="name"
+            name="harga_total"
+            value="{{data[5]}}"
+          /><br />
+          <button class="btn btn-primary">Submit</button>
+          <button class="btn btn-secondary">Kembali</button>
+        </form>

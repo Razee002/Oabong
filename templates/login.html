@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-social@1/bin/bulma-social.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css" />
+    <link rel="stylesheet" href="../static/login.css" />
+  </head>
+  <body>
+    <section class="hero is-fullheight">
+      <div class="hero-body">
+        <div class="container has-text-centered">
+          <div class="col-md-4 col-md-offset-4">
+            {% if pesan=="gagal" %}
+            <div class="alert alert-danger">
+              Login gagal! username dan password salah!
+            </div>
+            {% elif pesan=="logout" %}
+            <div class="alert alert-info">Anda telah berhasil logout</div>
+            {% elif pesan=="belum_login" %}
+            <div class="alert alert-danger">
+              Anda harus login untuk mengakses halaman admin
+            </div>
+            {% endif %}
+          <div class="column is-4 is-offset-4">
+            <div class="box">
+              <p class="subtitle is-4">Please login to proceed.</p>
+              <br />
+              <form action="http://localhost:5000/login" method="post">
+                <div class="field">
+                  <p class="control has-icons-left has-icons-right">
+                    <input class="input is-medium" type="text" name="username" placeholder="Username" />
+                    <span class="icon is-medium is-left">
+                      <i class="fas fa-user"></i>
+                    </span>
+                  </p>
+                </div>
+                <div class="field">
+                  <p class="control has-icons-left">
+                    <input class="input is-medium" type="password" name="password" placeholder="Password" />
+                    <span class="icon is-small is-left">
+                      <i class="fas fa-lock"></i>
+                    </span>
+                  </p>
+                </div>
+                <button class="button is-block is-info is-large is-fullwidth" value="Login">Login</button><br />
+                <div class="buttons is-centered" style="margin-bottom: 0;">
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-foot">
+        <div class="container has-text-centered">
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

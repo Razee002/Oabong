@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Invoice Transaksi</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .invoice {
+        width: 300px;
+        margin: 0 auto;
+      }
+      .invoice-header {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .invoice-body {
+        margin-bottom: 20px;
+      }
+      .invoice-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .invoice-table th,
+      .invoice-table td {
+        padding: 5px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+      .invoice-total {
+        text-align: right;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="invoice">
+      <div class="invoice-header">
+        <h2>Invoice Transaksi</h2>
+      </div>
+      <div class="invoice-body">
+        <table class="invoice-table">
+          <tr>
+            <th>Nama:</th>
+            <td>{{ nama }}</td>
+          </tr>
+          <tr>
+            <th>Tanggal:</th>
+            <td>{{ tanggal }}</td>
+          </tr>
+          <tr>
+            <th>Kategori:</th>
+            <td>{{ kategori }}</td>
+          </tr>
+          <tr>
+            <th>Jumlah Tiket:</th>
+            <td>{{ jumlah_pesanan }}</td>
+          </tr>
+          <tr>
+            <th>Harga Satuan:</th>
+            <td>{{ harga_satuan }}</td>
+          </tr>
+          <tr>
+            <th>Subtotal:</th>
+            <td>{{ subtotal }}</td>
+          </tr>
+          <!-- <tr>
+            <th>Total:</th>
+            <td>{{ total }}</td>
+          </tr> -->
+        </table>
+      </div>
+    </div>
+  </body>
+</html>
